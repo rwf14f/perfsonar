@@ -12,7 +12,10 @@ class perfsonar::patches(
     $patchpackage_require = undef
   }
   case $perfsonar_version {
-    /^3\.5\.1/: {
+    /^(3\.5\.1|4\.0)/: {
+      package { 'augeas-libs':
+        ensure => 'present',
+      }
       $patches = {
         '01_perfsonar_webservice_auth.patch.3.5.0' => {
           path      => '/usr/lib/perfsonar/lib/perfSONAR_PS/NPToolkit/WebService',
@@ -30,7 +33,13 @@ class perfsonar::patches(
           strip     => 1,
           deps      => Package['perfsonar-toolkit'],
           checkfile => 'index.cgi', # relative to path
-        }
+        },
+        '03_augeas_httpd.patch' => {
+          path      => '/usr/share/augeas/lenses/dist',
+          strip     => 1,
+          deps      => Package['augeas-libs'],
+          checkfile => 'httpd.aug', # relative to path
+        },
       }
     }
     default: {

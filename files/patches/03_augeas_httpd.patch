@@ -1,0 +1,28 @@
+--- dist/httpd.aug.org	2017-04-28 11:17:04.010737996 +0100
++++ dist/httpd.aug	2017-04-28 11:27:57.115688414 +0100
+@@ -34,6 +34,9 @@
+ 
+ *)
+ 
++(*
++# puppet perfsonar::patches applied patch: 03_augeas_httpd.patch
++*)
+ 
+ module Httpd =
+ 
+@@ -63,13 +66,14 @@
+ let char_arg_sec  = /[^ '"\t\r\n>]|\\\\"|\\\\'/
+ let dquot = /"([^"\\\r\n]|\\\\.)*"/
+ let squot = /'([^'\\\r\n]|\\\\.)*'/
++let comp = /[<>=]?=/
+ 
+ (******************************************************************
+  *                            Attributes
+  *****************************************************************)
+ 
+ let arg_dir = [ label "arg" . store (char_arg_dir+|dquot|squot) ]
+-let arg_sec = [ label "arg" . store (char_arg_sec+|dquot|squot) ]
++let arg_sec = [ label "arg" . store (char_arg_sec+|comp|dquot|squot) ]
+ 
+ let argv (l:lens) = l . (sep_spc . l)*
+ 

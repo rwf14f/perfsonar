@@ -83,12 +83,18 @@ class perfsonar::apache(
   }
   if $have_auth > 0 {
     # additions for new web gui
+    $changes40 = versioncmp($perfsonar_version, '4.0') ? {
+      /^[01]$/ => [
+        "rm Location[arg='\"/toolkit/auth\"']/*/directive[.='AuthUserFile']",
+      ],
+      default  => [],
+    }
     $changes35 = versioncmp($perfsonar_version, '3.5') ? {
       /^[01]$/ => [
-        "rm Location[arg='\"/toolkit/auth\"']/directive[.='AuthShadow']",
-        "rm Location[arg='\"/toolkit/auth\"']/directive[.='AuthType']",
-        "rm Location[arg='\"/toolkit/auth\"']/directive[.='AuthName']",
-        "rm Location[arg='\"/toolkit/auth\"']/directive[.='Require']",
+        "rm Location[arg='\"/toolkit/auth\"']/*/directive[.='AuthShadow']",
+        "rm Location[arg='\"/toolkit/auth\"']/*/directive[.='AuthType']",
+        "rm Location[arg='\"/toolkit/auth\"']/*/directive[.='AuthName']",
+        "rm Location[arg='\"/toolkit/auth\"']/*/directive[.='Require']",
         "setm Location[arg='\"/toolkit/auth\"'] directive[.='Include'] 'Include'",
         "setm Location[arg='\"/toolkit/auth\"'] *[.='Include']/arg '${perfsonar::params::httpd_dir}/ssl_auth.conf'",
       ],
@@ -147,7 +153,7 @@ class perfsonar::apache(
     notify  => Service[$::perfsonar::params::httpd_service],
     require => Package[$::perfsonar::params::httpd_package],
   }
-  $auges_changes = concat($changes34, $changes35, $remove_redirect)
+  $auges_changes = concat($changes34, $changes35, $changes40, $remove_redirect)
   augeas { 'update perfsonar apache config':
     incl    => "${perfsonar::params::conf_dir}/apache-toolkit_web_gui.conf",
     lens    => 'Httpd.lns',

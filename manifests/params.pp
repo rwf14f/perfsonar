@@ -168,4 +168,11 @@ class perfsonar::params(
     send_error_emails      => 1,
     skip_redundant_tests   => 1,
   }
+
+  # disable db after upgrade to perfsonar 4.0
+  if $::perfsonar_version and versioncmp($::perfsonar_version, '4.0') >= 0 {
+    $esmond_use_db_module_real = false
+  } else {
+    $esmond_use_db_module_real = true
+  }
 }
