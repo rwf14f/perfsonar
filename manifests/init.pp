@@ -4,7 +4,9 @@ class perfsonar {
   include 'perfsonar::service'
   include 'perfsonar::apache'
   include 'perfsonar::esmond'
-  include 'perfsonar::regular_testing'
+  if $::perfsonar_version and versioncmp($::perfsonar_version, '4.0') < 0 {
+    include 'perfsonar::regular_testing'
+  }
   include 'perfsonar::mesh_config'
   include 'perfsonar::owamp'
   include 'perfsonar::bwctl'
