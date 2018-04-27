@@ -34,31 +34,6 @@ diff -Nur root.org/admin/index.cgi root/admin/index.cgi
  
  if ( !$authenticated ) {
      print unauthorized_output($cgi);
-diff -Nur root.org/admin/services.cgi root/admin/services.cgi
---- root.org/admin/services.cgi	2015-10-02 10:23:09.329116608 +0100
-+++ root/admin/services.cgi	2015-10-02 14:02:59.016556034 +0100
-@@ -21,20 +21,13 @@
- 
- my $section = 'services';
- 
--my $authenticated = is_authenticated($cgi);
-+my ($authenticated, $remote_user, $auth_type) = is_authenticated($cgi);
- 
- if ( !$authenticated ) {
-     print unauthorized_output($cgi);
-     exit;
- }
- 
--my $remote_user = $cgi->remote_user();
--my $auth_type = '';
--
--if($cgi->auth_type()) {
--        $auth_type = $cgi->auth_type();
--}
--
- my $full_url = url( -path=>1, -query=>1);
- my $https_url = $full_url;
- #if (!$full_url =~ /^https/) {
 diff -Nur root.org/admin/tests.cgi root/admin/tests.cgi
 --- root.org/admin/tests.cgi	2015-10-02 10:23:09.330116611 +0100
 +++ root/admin/tests.cgi	2015-10-02 14:03:05.606554727 +0100
