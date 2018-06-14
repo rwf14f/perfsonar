@@ -84,7 +84,7 @@ class perfsonar::apache(
   if $have_auth > 0 {
     # additions for new web gui
     $changes40 = versioncmp($perfsonar_version, '4.0') ? {
-      /^[01]$/ => [
+      /^[012]$/ => [
         "rm Location[arg='\"/toolkit/auth\"']/*/directive[.='AuthUserFile']",
       ],
       default  => [],
