@@ -1,7 +1,7 @@
 class perfsonar::ls_registration_daemon::install(
-  $ensure = $::perfsonar::params::ls_registration_daemon_install_ensure,
+  $ensure = 'present',
 ) inherits perfsonar::params {
-  package { $::perfsonar::params::ls_registration_daemon_packages:
+  package { 'perfsonar-lsregistrationdaemon':
     ensure => $ensure,
     before => File['/etc/perfsonar/lsregistrationdaemon-logger.conf'],
   }

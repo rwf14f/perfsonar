@@ -1,0 +1,134 @@
+# Managed by Puppet
+
+# simple key/value options
+<% @lsrd_options.keys.sort.each do |opt| -%>
+<%= opt %> <%= @lsrd_options[opt] %>
+<% end -%>
+
+# roles
+<% @roles.each do |role| -%>
+role <%= role %>
+<% end -%>
+
+# site projects
+<% @projects.each do |project| -%>
+site_project <%= project %>
+<% end -%>
+
+# administrators
+<% @admins.each do |admin| -%>
+<administrator>
+<%  admin.keys.sort.each do |aopt| -%>
+  <%= aopt %> <%= admin[aopt] %>
+<%  end -%>
+</administrator>
+<% end -%>
+
+#############################
+# All the information you provide on this file will be sent, recorded  and  made
+# publicly available  on  the  global  perfSONAR  Lookup  Service.  For  privacy
+# reasons, we recommend you use a role or group name and related  email  address
+# to be registered. Any personal information you would provide will be  on  your
+# own responsibility and will by  no  means  represent  an  obligation  for  the
+# perfSONAR  project.   See   our   Privacy   Notice   for   more   information.
+# https://www.perfsonar.net/about/privacy-policy/
+#############################
+##Optional Location information
+
+## Name of site where host is running
+#site_name Acme Co.
+
+## Administrative domain of host in DNS format
+#domain mydomain.example
+
+## A keyword identifying a project or community in which the host is involved
+## You may list multiple of these projects on separate lines.
+#site_project MyProject1
+#site_project MyProject2
+
+## City where host is running
+#city Berkeley
+
+## Two-letter abbreviation for State/Province/Region where host is running
+#region CA
+
+## Two-letter ISO country code for country where host is running
+#country US
+
+## Postal code for location where host is running
+#zip_code 94720
+
+## Latitude for location here host is running
+#latitude 37.5
+
+## Longitude for location here host is running
+#longitude 121.7469
+#############################
+
+## The URL of a lookup service in which to register. If not set, will choose
+## from global list based on closest RTT. use this to set a private lookup service.
+#ls_instance http://private-ls:8090/lookup/records
+
+## The interval between service checks to see if a service is still running.
+#check_interval    3600       # In seconds
+
+## Set this if you don't want private IPs ignored
+#allow_internal_addresses     0
+
+#<administrator>
+#    name      pS Admin
+#    email     admin@organization.edu
+#</administrator>
+
+## Templates containing list of common parameters that services will use
+<service_template local_latency_service>
+    autodiscover_addresses   1
+#   primary_interface          eth0
+</service_template>
+
+<service_template local_bandwidth_service>
+    autodiscover_addresses   1
+#   primary_interface          eth1
+</service_template>
+
+<service_template local_web_service>
+    autodiscover_addresses   1
+#   primary_interface          eth2
+</service_template>
+
+## List of services to register
+<site>
+    <host>
+        is_local                   1
+        autodiscover               1
+        autodiscover_interfaces    1
+
+        <service>
+            inherits local_latency_service
+            type     owamp
+        </service>
+        <service>
+            inherits local_bandwidth_service
+            type     bwctl
+        </service>
+        <service>
+            inherits local_web_service
+            type ma
+            http_port 80
+            https_port 443
+            url_path /esmond/perfsonar/archive
+            service_version esmond-2.0
+            autodiscover_tests 1
+        </service>
+        <service>
+            inherits local_web_service
+            type pscheduler
+            https_port 443
+            url_path /pscheduler
+            service_version pscheduler-1.0
+            autodiscover_tests 1
+            autodiscover_tools 1
+        </service>
+    </host>
+</site>
+

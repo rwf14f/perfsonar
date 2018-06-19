@@ -1,28 +1,39 @@
 class perfsonar::ls_registration_daemon::config(
-  $snotify    = $::perfsonar::params::ls_registration_daemon_snotify,
-  $loglvl     = $::perfsonar::params::ls_registration_daemon_loglvl,
-  $logger     = $::perfsonar::params::ls_registration_daemon_logger,
-  $logfile    = $::perfsonar::params::ls_registration_daemon_logfile,
-  $admininfo  = {},
+  $snotify      = true,
+  $loglvl       = 'INFO',
+  $logger       = 'Log::Dispatch::FileRotate',
+  $logfile      = '/var/log/perfsonar/ls_registration_daemon.log',
+  $admins       = {},
+  $options      = {},
+  $roles        = [],
+  $projects     = [],
 ) inherits perfsonar::params {
   $tn = $snotify ? {
     false   => undef,
     default => Service['perfsonar-lsregistrationdaemon'],
   }
   file { '/etc/perfsonar/lsregistrationdaemon-logger.conf':
-    ensure  => 'file',
+    ensure  => 'present',
     owner   => 'perfsonar',
     group   => 'perfsonar',
     mode    => '0644',
     content => template("${module_name}/log4perl-logger.conf.erb"),
+    require => Package['perfsonar-lsregistrationdaemon'],
     notify  => $tn,
   }
-  
-  # TODO: use Augeas to write this config instead of a cat
-  exec { 'append_info':
-    command => '/bin/cat /etc/perfsonar/toolkit/administrative_info >> /etc/perfsonar/lsregistrationdaemon.conf',
-    unless  => '/bin/grep ^site_project /etc/perfsonar/lsregistrationdaemon.conf > /dev/null',
-    require => File['/etc/perfsonar/toolkit/administrative_info'],
-    notify  => Service['perfsonar-lsregistrationdaemon']
+
+  $default_options = {
+    check_interval           => 3600,
+    allow_internal_addresses => 0,
+  }
+  $lsrd_options = merge($default_options, $options)
+  file { '/etc/perfsonar/lsregistrationdaemon.conf':
+    ensure  => 'present',
+    owner   => 'perfsonar',
+    group   => 'perfsonar',
+    mode    => '0644',
+    content => template("${module_name}/lsregistrationdaemon.conf.erb"),
+    require => Package['perfsonar-lsregistrationdaemon'],
+    notify  => $tn,
   }
 }
