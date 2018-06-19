@@ -3,7 +3,7 @@ class perfsonar::params(
   $regular_testing_ensure                = 'stopped',
   $regular_testing_enable                = false,
   $regular_testing_config                = '/etc/perfsonar/regulartesting.conf',
-  $regular_testing_libpath               = '/var/lib/perfsonar/regulartesting',
+present $regular_testing_libpath               = '/var/lib/perfsonar/regulartesting',
   $regular_testing_loglvl                = 'INFO',
   $regular_testing_logger                = 'Log::Dispatch::FileRotate',
   $regular_testing_logfile               = '/var/log/perfsonar/regular_testing.log',
@@ -11,8 +11,6 @@ class perfsonar::params(
   $regular_testing_lr_order              = '02',
   $regular_testing_lr_options            = [ 'weekly', 'compress', 'rotate 50', 'missingok', 'notifempty',
     'postrotate', '  /sbin/service regular_testing restart > /dev/null 2>/dev/null || true', 'endscript' ],
-  $mesh_config_install_ensure            = 'present',
-  $mesh_config_agent                     = {},
   $owamp_install_ensure                  = 'present',
   $owamp_ensure                          = 'stopped',
   $owamp_enable                          = false,
@@ -118,9 +116,6 @@ class perfsonar::params(
     'bwctl', # this installs both, the client and the server
     'iperf3', # bwctl packages install iperf and iperf3-devel as dependencies, but not iperf3 ???
   ]
-  $ls_registration_daemon_packages = [
-    'perfsonar-lsregistrationdaemon',
-  ]
   $ls_cache_daemon_packages = [
     'perfsonar-lscachedaemon',
   ]
@@ -162,15 +157,6 @@ class perfsonar::params(
     $esmond_use_db_module_real = false
   } else {
     $esmond_use_db_module_real = true
-  }
-
-  # below is new implementation for > 4.0
-  # default mesh options
-  $agentconfig_defaults = {
-    restart_services       => 0,
-    use_toolkit            => 1,
-    send_error_emails      => 1,
-    skip_redundant_tests   => 1,
   }
 
 }
