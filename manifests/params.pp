@@ -105,9 +105,6 @@ class perfsonar::params(
     'perfsonar-regulartesting',
     #'perl-DBD-MySQL', # required by regular testing ? I've seen related error message in the logs when it's not installed
   ]
-  $mesh_config_packages = [
-    'perfsonar-meshconfig-agent',
-  ]
   # we should split client and server at some point
   $owamp_packages = [
     'owamp-client',
@@ -160,19 +157,20 @@ class perfsonar::params(
   $cassandra_ensure = 'running'
   $cassandra_enable = true
 
-  # default mesh config
-  $agentconfig = {
-    mesh => [],
-    restart_services       => 0,
-    use_toolkit            => 1,
-    send_error_emails      => 1,
-    skip_redundant_tests   => 1,
-  }
-
   # disable db after upgrade to perfsonar 4.0
   if $::perfsonar_version and versioncmp($::perfsonar_version, '4.0') >= 0 {
     $esmond_use_db_module_real = false
   } else {
     $esmond_use_db_module_real = true
   }
+
+  # below is new implementation for > 4.0
+  # default mesh options
+  $agentconfig_defaults = {
+    restart_services       => 0,
+    use_toolkit            => 1,
+    send_error_emails      => 1,
+    skip_redundant_tests   => 1,
+  }
+
 }
