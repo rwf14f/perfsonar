@@ -3,7 +3,7 @@ class perfsonar::params(
   $regular_testing_ensure                = 'stopped',
   $regular_testing_enable                = false,
   $regular_testing_config                = '/etc/perfsonar/regulartesting.conf',
-present $regular_testing_libpath               = '/var/lib/perfsonar/regulartesting',
+  $regular_testing_libpath               = '/var/lib/perfsonar/regulartesting',
   $regular_testing_loglvl                = 'INFO',
   $regular_testing_logger                = 'Log::Dispatch::FileRotate',
   $regular_testing_logfile               = '/var/log/perfsonar/regular_testing.log',
