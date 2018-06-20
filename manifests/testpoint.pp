@@ -5,8 +5,8 @@ class perfsonar::testpoint {
   include 'perfsonar::mesh_config'
   # components that are not configured but use puppet to ensure the service is running
   include 'perfsonar::pscheduler'
-  include 'perfsonar::apache'
-  include 'perfsonar::postgresql'
   include 'perfsonar::bwctl'
   include 'perfsonar::owamp'
+  include 'perfsonar::apache'
+  include 'perfsonar::postgresql'
 }
