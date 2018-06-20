@@ -1,22 +1,4 @@
 class perfsonar::params(
-  $regular_testing_install_ensure        = 'present',
-  $regular_testing_ensure                = 'stopped',
-  $regular_testing_enable                = false,
-  $regular_testing_config                = '/etc/perfsonar/regulartesting.conf',
-  $regular_testing_libpath               = '/var/lib/perfsonar/regulartesting',
-  $regular_testing_loglvl                = 'INFO',
-  $regular_testing_logger                = 'Log::Dispatch::FileRotate',
-  $regular_testing_logfile               = '/var/log/perfsonar/regular_testing.log',
-  $regular_testing_snotify               = true,
-  $regular_testing_lr_order              = '02',
-  $regular_testing_lr_options            = [ 'weekly', 'compress', 'rotate 50', 'missingok', 'notifempty',
-    'postrotate', '  /sbin/service regular_testing restart > /dev/null 2>/dev/null || true', 'endscript' ],
-  $esmond_dbname                         = 'esmond',
-  $esmond_dbuser                         = 'esmond',
-  $esmond_dbpass                         = 'jqIqSIiuzwI0FMUu',
-  $esmond_use_db_module                  = true,
-  $esmond_root                           = '/usr/lib/esmond',
-  $esmond_conf_path                      = '/etc/esmond',
   $ls_cache_daemon_install_ensure        = 'present',
   $ls_cache_daemon_ensure                = 'running',
   $ls_cache_daemon_enable                = true,
@@ -83,10 +65,6 @@ class perfsonar::params(
      'device-mapper-multipath',
   ]
 
-  $regular_testing_packages = [
-    'perfsonar-regulartesting',
-    #'perl-DBD-MySQL', # required by regular testing ? I've seen related error message in the logs when it's not installed
-  ]
   $ls_cache_daemon_packages = [
     'perfsonar-lscachedaemon',
   ]
@@ -122,12 +100,5 @@ class perfsonar::params(
   $ls_bs_client_enable = false
   $cassandra_ensure = 'running'
   $cassandra_enable = true
-
-  # disable db after upgrade to perfsonar 4.0
-  if $::perfsonar_version and versioncmp($::perfsonar_version, '4.0') >= 0 {
-    $esmond_use_db_module_real = false
-  } else {
-    $esmond_use_db_module_real = true
-  }
 
 }
