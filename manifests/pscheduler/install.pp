@@ -1,7 +1,7 @@
-class perfsonar::owamp::install(
+class perfsonar::pscheduler::install(
   $ensure = 'present',
 ) inherits perfsonar::params {
-  package { 'owamp-server':
+  package { 'pscheduler-server':
     ensure => $ensure,
   }
 }

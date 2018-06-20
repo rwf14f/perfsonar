@@ -11,12 +11,6 @@ class perfsonar::params(
   $regular_testing_lr_order              = '02',
   $regular_testing_lr_options            = [ 'weekly', 'compress', 'rotate 50', 'missingok', 'notifempty',
     'postrotate', '  /sbin/service regular_testing restart > /dev/null 2>/dev/null || true', 'endscript' ],
-  $owamp_install_ensure                  = 'present',
-  $owamp_ensure                          = 'stopped',
-  $owamp_enable                          = false,
-  $bwctl_install_ensure                  = 'present',
-  $bwctl_ensure                          = 'stopped',
-  $bwctl_enable                          = false,
   $esmond_dbname                         = 'esmond',
   $esmond_dbuser                         = 'esmond',
   $esmond_dbpass                         = 'jqIqSIiuzwI0FMUu',
@@ -92,19 +86,6 @@ class perfsonar::params(
   $regular_testing_packages = [
     'perfsonar-regulartesting',
     #'perl-DBD-MySQL', # required by regular testing ? I've seen related error message in the logs when it's not installed
-  ]
-  # we should split client and server at some point
-  $owamp_packages = [
-    'owamp-client',
-    'owamp-server',
-    'owamp', # this installs both, the client and the server, plus I2util (which is installed by neither the client nor the server)
-  ]
-  # we should split client and server at some point
-  $bwctl_packages = [
-    'bwctl-client',
-    'bwctl-server',
-    'bwctl', # this installs both, the client and the server
-    'iperf3', # bwctl packages install iperf and iperf3-devel as dependencies, but not iperf3 ???
   ]
   $ls_cache_daemon_packages = [
     'perfsonar-lscachedaemon',

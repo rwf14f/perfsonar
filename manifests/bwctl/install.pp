@@ -1,7 +1,7 @@
 class perfsonar::bwctl::install(
-  $ensure = $::perfsonar::params::bwctl_install_ensure,
+  $ensure = 'present',
 ) inherits perfsonar::params {
-  package { $::perfsonar::params::bwctl_packages:
+  package { 'bwctl-server':
     ensure => $ensure,
   }
 }

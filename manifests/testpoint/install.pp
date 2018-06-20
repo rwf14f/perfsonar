@@ -1,7 +1,7 @@
-class perfsonar::owamp::install(
+class perfsonar::testpoint::install(
   $ensure = 'present',
 ) inherits perfsonar::params {
-  package { 'owamp-server':
+  package { 'perfsonar-testpoint':
     ensure => $ensure,
   }
 }

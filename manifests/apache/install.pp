@@ -1,7 +1,7 @@
-class perfsonar::owamp::install(
+class perfsonar::apache::install(
   $ensure = 'present',
 ) inherits perfsonar::params {
-  package { 'owamp-server':
+  package { 'httpd':
     ensure => $ensure,
   }
 }

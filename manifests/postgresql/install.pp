@@ -1,7 +1,7 @@
-class perfsonar::owamp::install(
+class perfsonar::postgresql::install(
   $ensure = 'present',
 ) inherits perfsonar::params {
-  package { 'owamp-server':
+  package { 'postgresql95':
     ensure => $ensure,
   }
 }

@@ -1,11 +1,11 @@
 class perfsonar::owamp::service(
-  $ensure = $::perfsonar::params::owamp_ensure,
-  $enable = $::perfsonar::params::owamp_enable,
+  $ensure = 'stopped',
+  $enable = false,
 ) inherits perfsonar::params {
   service { 'owamp-server':
     ensure     => $ensure,
     enable     => $enable,
-    hasstatus  => false,
+    hasstatus  => true,
     hasrestart => true,
     require    => Package['owamp-server'],
   }

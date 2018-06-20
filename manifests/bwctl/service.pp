@@ -1,11 +1,11 @@
 class perfsonar::bwctl::service(
-  $ensure = $::perfsonar::params::bwctl_ensure,
-  $enable = $::perfsonar::params::bwctl_enable,
+  $ensure = 'stopped',
+  $enable = false,
 ) inherits perfsonar::params {
   service { 'bwctl-server':
     ensure     => $ensure,
     enable     => $enable,
-    hasstatus  => false,
+    hasstatus  => true,
     hasrestart => true,
     require    => Package['bwctl-server'],
   }
