@@ -1,7 +1,16 @@
 class perfsonar::ls_cache_daemon::logrotate(
-  $logfiles = $::perfsonar::ls_cache_daemon::config::logfile,
-  $options  = $::perfsonar::params::ls_cache_daemon_lr_options,
-  $order    = $::perfsonar::params::ls_cache_daemon_lr_order
+  $logfiles = $::perfsonar::ls_cache_daemon::config::logger,
+  $options  = [
+    'weekly',
+    'compress',
+    'rotate 50',
+    'missingok',
+    'notifempty',
+    'postrotate',
+    '  /bin/systemctl restart perfsonar-lscachedaemon /dev/null 2>/dev/null || true',
+    'endscript'
+  ],
+  $order    = '04',
 ) inherits perfsonar::params {
   if $::perfsonar::ls_cache_daemon::config::logger == 'Log::Dispatch::FileRotate' {
     warning("configuring logrotate, but ls_cache_daemon's own logger is configured to do log rotation as well, I hope you know what you're doing")

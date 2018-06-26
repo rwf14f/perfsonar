@@ -1,8 +1,8 @@
 class perfsonar::ls_cache_daemon::config(
-  $snotify = $::perfsonar::params::ls_cache_daemon_snotify,
-  $loglvl  = $::perfsonar::params::ls_cache_daemon_loglvl,
-  $logger  = $::perfsonar::params::ls_cache_daemon_logger,
-  $logfile = $::perfsonar::params::ls_cache_daemon_logfile,
+  $snotify = true,
+  $loglvl  = 'INFO',
+  $logger  = 'Log::Dispatch::FileRotate',
+  $logfile = '/var/log/perfsonar/lscachedaemon.log',
 ) inherits perfsonar::params {
   $tn = $snotify ? {
     false   => undef,

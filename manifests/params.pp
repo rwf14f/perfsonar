@@ -1,14 +1,4 @@
 class perfsonar::params(
-  $ls_cache_daemon_install_ensure        = 'present',
-  $ls_cache_daemon_ensure                = 'running',
-  $ls_cache_daemon_enable                = true,
-  $ls_cache_daemon_loglvl                = 'INFO',
-  $ls_cache_daemon_logger                = 'Log::Dispatch::FileRotate',
-  $ls_cache_daemon_logfile               = '/var/log/perfsonar/ls_cache_daemon.log',
-  $ls_cache_daemon_snotify               = true,
-  $ls_cache_daemon_lr_order              = '04',
-  $ls_cache_daemon_lr_options            = [ 'weekly', 'compress', 'rotate 50', 'missingok', 'notifempty',
-    'postrotate', '  /sbin/service ls_cache_daemon restart > /dev/null 2>/dev/null || true', 'endscript' ],
   $patchdir                              = '/usr/local/share/perfsonar_patches',
   $patchpackage                          = 'patch',
   $patchpackage_ensure                   = 'present',
@@ -65,13 +55,6 @@ class perfsonar::params(
      'device-mapper-multipath',
   ]
 
-  $ls_cache_daemon_packages = [
-    'perfsonar-lscachedaemon',
-  ]
-  # logrotate
-  $logrotate_cf = '/etc/logrotate.d/perfsonar'
-  $lr_header_order = '01'
-
   # apache default options
   $hostcert = '/etc/grid-security/hostcert.pem'
   $hostkey = '/etc/grid-security/hostkey.pem'
@@ -100,5 +83,10 @@ class perfsonar::params(
   $ls_bs_client_enable = false
   $cassandra_ensure = 'running'
   $cassandra_enable = true
+
+  # options valid after move to 4.0
+  # logrotate
+  $logrotate_cf = '/etc/logrotate.d/perfsonar'
+  $lr_header_order = '01'
 
 }

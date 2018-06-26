@@ -1,5 +1,5 @@
 class perfsonar::ls_registration_daemon::logrotate(
-  $logfiles = $::perfsonar::ls_registration_daemon::config::logfile,
+  $logfiles = $::perfsonar::ls_registration_daemon::config::logger,
   $options  = [
     'weekly',
     'compress',

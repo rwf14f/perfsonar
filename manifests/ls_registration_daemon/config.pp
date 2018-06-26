@@ -2,7 +2,7 @@ class perfsonar::ls_registration_daemon::config(
   $snotify      = true,
   $loglvl       = 'INFO',
   $logger       = 'Log::Dispatch::FileRotate',
-  $logfile      = '/var/log/perfsonar/ls_registration_daemon.log',
+  $logfile      = '/var/log/perfsonar/lsregistrationdaemon.log',
   $admins       = {},
   $options      = {},
   $roles        = [],
