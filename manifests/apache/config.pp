@@ -1,9 +1,9 @@
 class perfsonar::apache(
-  $hostcert    = $perfsonar::params::hostcert,
-  $hostkey     = $perfsonar::params::hostkey,
-  $capath      = $perfsonar::params::capath,
-  $clientauth  = $perfsonar::params::clientauth,
-  $verifydepth = $perfsonar::params::verifydepth,
+  $hostcert    = '/etc/grid-security/hostcert.pem'
+  $hostkey     = '/etc/grid-security/hostkey.pem'
+  $capath      = '/etc/grid-security/certificates'
+  $clientauth  = 'optional'
+  $verifydepth = 5
   $authdn      = [],
   $sslprotocol = 'all -SSLv2 -SSLv3',
   $sslciphers  = 'HIGH:MEDIUM:!aNULL:!MD5:!RC4',
