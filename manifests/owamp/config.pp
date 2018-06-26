@@ -1,8 +1,8 @@
 class perfsonar::owamp::config(
-  $test_port    = '8760-9960',
+  $test_port    = $::perfsonar::config::owamp_test_port,
   $log_facility = 'local5',
   $log_verbose  = true,
-) inherits perfsonar::params {
+) inherits perfsonar::config {
 
   file { '/etc/owamp-server/owamp-server.conf':
     ensure  => 'present',

@@ -11,5 +11,6 @@ class perfsonar::mesh_config::config(
     mode    => '0644',
     content => template("${module_name}/agent_configuration.conf.erb"),
     require => Package['perfsonar-meshconfig-agent'],
+    notify  => Service['perfsonar-meshconfig-agent'],
   }
 }
