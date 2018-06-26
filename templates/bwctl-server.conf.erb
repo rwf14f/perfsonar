@@ -153,16 +153,21 @@ group   bwctl
 # valid facilitynames from syslog
 # (defaults to daemon)
 #facility local5
+<% if @log_facility -%>
+facility <%= @log_facility %>
+<% end -%>
 
 # what syslog "level" should be used for errors?
 # valid prioritynames from syslog
 # (defaults to error)
 #priority    error
+priority <%= @log_level %>
 
 # what syslog "level" should be used for access messages?
 # valid prioritynames from syslog
 # (defaults to info)
 #access_priority  info
+access_priority <%= @log_alevel %>
 
 # include src file:line in log messages
 # keep this on, and help us with more specific bug reports!
