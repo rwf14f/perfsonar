@@ -16,6 +16,16 @@ class perfsonar::params(
       $httpd_dir        = '/etc/httpd'
       $mod_dir          = "${httpd_dir}/conf.d"
       $conf_dir         = "${httpd_dir}/conf.d"
+      case $::operatingsystemmajrelease {
+        '7': {
+          $disable_chronyd = true
+          $enable_ntpd     = true
+        }
+        default: {
+          $disable_chronyd = false
+          $enable_ntpd     = false
+        }
+      }
     }
     default: {
       fail("osfamily ${::osfamily} is not supported")
