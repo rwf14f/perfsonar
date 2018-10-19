@@ -11,21 +11,22 @@ class perfsonar::apache(
 
   # /opt/perfsonar_ps/toolkit/scripts/system_environment/disable_http_trace
   # disables trace requests
-  file { "${perfsonar::params::conf_dir}/disable_trace.conf":
-    ensure  => 'present',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => "TraceEnable Off\n",
-    notify  => Service[$::perfsonar::params::httpd_service],
-    require => Package[$::perfsonar::params::httpd_package],
-  }
+# doesn't seem to be used any more
+# file { "${perfsonar::params::conf_dir}/disable_trace.conf":
+#   ensure  => 'present',
+#   owner   => 'root',
+#   group   => 'root',
+#   mode    => '0644',
+#   content => "TraceEnable Off\n",
+#   notify  => Service[$::perfsonar::params::httpd_service],
+#   require => Package[$::perfsonar::params::httpd_package],
+# }
   file { "${perfsonar::params::conf_dir}/tk_redirect.conf":
     ensure  => 'present',
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => "RedirectMatch 301 ^/$ /toolkit/\n",
+    content => "RedirectMatch ^/$ /toolkit/\n",
     notify  => Service[$::perfsonar::params::httpd_service],
     require => Package[$::perfsonar::params::httpd_package],
   }
@@ -154,15 +155,15 @@ class perfsonar::apache(
     require => Package[$::perfsonar::params::httpd_package],
   }
   $auges_changes = concat($changes34, $changes35, $changes40, $remove_redirect)
-  augeas { 'update perfsonar apache config':
-    incl    => "${perfsonar::params::conf_dir}/apache-toolkit_web_gui.conf",
-    lens    => 'Httpd.lns',
-    context => "/files/${perfsonar::params::conf_dir}/apache-toolkit_web_gui.conf",
-    changes => $auges_changes,
-    notify  => Service[$::perfsonar::params::httpd_service],
-    require => [
-      Package[$::perfsonar::params::httpd_package],
-      File["${perfsonar::params::httpd_dir}/ssl_auth.conf"],
-    ],
-  }
+# augeas { 'update perfsonar apache config':
+#   incl    => "${perfsonar::params::conf_dir}/apache-toolkit_web_gui.conf",
+#   lens    => 'Httpd.lns',
+#   context => "/files/${perfsonar::params::conf_dir}/apache-toolkit_web_gui.conf",
+#   changes => $auges_changes,
+#   notify  => Service[$::perfsonar::params::httpd_service],
+#   require => [
+#     Package[$::perfsonar::params::httpd_package],
+#     File["${perfsonar::params::httpd_dir}/ssl_auth.conf"],
+#   ],
+# }
 }
