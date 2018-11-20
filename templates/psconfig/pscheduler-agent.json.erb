@@ -1,0 +1,9 @@
+{
+  "remotes" : [
+<%
+maxidx = @remote_urls.size() - 1
+@remote_urls.each_with_index do |url, i| -%>
+    { "url" : "<%= url %>" }<% if i < maxidx then %>,<% end %>
+<% end -%>
+  ]
+}

@@ -1,8 +1,8 @@
-class perfsonar::testpoint::install(
+class perfsonar::psconfig::pscheduler::install(
   Enum['installed', 'present', 'latest'] $ensure = 'present',
 ) {
 
-  package { 'perfsonar-testpoint':
+  package { 'perfsonar-psconfig-pscheduler':
     ensure => $ensure,
   }
 
