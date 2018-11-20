@@ -1,21 +1,94 @@
 # Managed by Puppet
 
-# simple key/value options
-<% @lsrd_options.keys.sort.each do |opt| -%>
-<%= opt %> <%= @lsrd_options[opt] %>
+#############################
+# All the information you provide on this file will be sent, recorded  and  made
+# publicly available  on  the  global  perfSONAR  Lookup  Service.  For  privacy
+# reasons, we recommend you use a role or group name and related  email  address
+# to be registered. Any personal information you would provide will be  on  your
+# own responsibility and will by  no  means  represent  an  obligation  for  the
+# perfSONAR  project.  See our Privacy Policy for more information:
+# https://www.perfsonar.net/about/privacy-policy/
+#############################
+##Optional Location information
+## Name of site where host is running
+#site_name Acme Co.
+<% if @site_name then -%>
+site_name <%= @site_name %>
+<% end -%>
+## Administrative domain of host in DNS format
+#domain mydomain.example
+<% if @site_domain then -%>
+domain <%= @site_domain %>
 <% end -%>
 
+## A keyword identifying a project or community in which the host is involved
+## You may list multiple of these projects on separate lines.
+#site_project MyProject1
+#site_project MyProject2
+<% @projects.each do |project| -%>
+site_project <%= project %>
+<% end -%>
 # roles
 <% @roles.each do |role| -%>
 role <%= role %>
 <% end -%>
 
-# site projects
-<% @projects.each do |project| -%>
-site_project <%= project %>
+## City where host is running
+#city Berkeley
+<% if @city then -%>
+city <%= @city %>
 <% end -%>
 
-# administrators
+## Two-letter abbreviation for State/Province/Region where host is running
+#region CA
+<% if @region then -%>
+region <%= @region %>
+<% end -%>
+
+## Two-letter ISO country code for country where host is running
+#country US
+<% if @country then -%>
+country <%= @country %>
+<% end -%>
+
+## Postal code for location where host is running
+#zip_code 94720
+<% if @zip_code then -%>
+zip_code <%= @zip_code %>
+<% end -%>
+
+## Latitude for location here host is running
+#latitude 37.5
+<% if @latitude then -%>
+latitude <%= @latitude %>
+<% end -%>
+
+## Longitude for location here host is running
+#longitude 121.7469
+<% if @longitude then -%>
+longitude <%= @longitude %>
+<% end -%>
+#############################
+
+## The URL of a lookup service in which to register. If not set, will choose
+## from global list based on closest RTT. use this to set a private lookup service.
+#ls_instance http://private-ls:8090/lookup/records
+<% if @ls_instance then -%>
+ls_instance <%= @ls_instance %>
+<% end -%>
+
+## The interval between service checks to see if a service is still running.
+#check_interval    3600       # In seconds
+check_interval <%= @check_interval %>
+
+## Set this if you don't want private IPs ignored
+#allow_internal_addresses     0
+allow_internal_addresses <%= @allow_internal_addresses ? 1 : 0 %>
+
+#<administrator>
+#    name      pS Admin
+#    email     admin@organization.edu
+#</administrator>
 <% @admins.each do |admin| -%>
 <administrator>
 <%  admin.keys.sort.each do |aopt| -%>
@@ -24,62 +97,9 @@ site_project <%= project %>
 </administrator>
 <% end -%>
 
-#############################
-# All the information you provide on this file will be sent, recorded  and  made
-# publicly available  on  the  global  perfSONAR  Lookup  Service.  For  privacy
-# reasons, we recommend you use a role or group name and related  email  address
-# to be registered. Any personal information you would provide will be  on  your
-# own responsibility and will by  no  means  represent  an  obligation  for  the
-# perfSONAR  project.   See   our   Privacy   Notice   for   more   information.
-# https://www.perfsonar.net/about/privacy-policy/
-#############################
-##Optional Location information
-
-## Name of site where host is running
-#site_name Acme Co.
-
-## Administrative domain of host in DNS format
-#domain mydomain.example
-
-## A keyword identifying a project or community in which the host is involved
-## You may list multiple of these projects on separate lines.
-#site_project MyProject1
-#site_project MyProject2
-
-## City where host is running
-#city Berkeley
-
-## Two-letter abbreviation for State/Province/Region where host is running
-#region CA
-
-## Two-letter ISO country code for country where host is running
-#country US
-
-## Postal code for location where host is running
-#zip_code 94720
-
-## Latitude for location here host is running
-#latitude 37.5
-
-## Longitude for location here host is running
-#longitude 121.7469
-#############################
-
-## The URL of a lookup service in which to register. If not set, will choose
-## from global list based on closest RTT. use this to set a private lookup service.
-#ls_instance http://private-ls:8090/lookup/records
-
-## The interval between service checks to see if a service is still running.
-#check_interval    3600       # In seconds
-
-## Set this if you don't want private IPs ignored
-#allow_internal_addresses     0
-
-#<administrator>
-#    name      pS Admin
-#    email     admin@organization.edu
-#</administrator>
-
+<% @additional_options.keys.each do |k| -%>
+<%= k %> <%= @additional_options[k] %>
+<% end -%>
 ## Templates containing list of common parameters that services will use
 <service_template local_latency_service>
     autodiscover_addresses   1
@@ -103,13 +123,42 @@ site_project <%= project %>
         autodiscover               1
         autodiscover_interfaces    1
 
+        ####
+        # If you want to publish that only certain tests are allowed on certain interfaces
+        # then you need to first do the following:
+        #    1. Set autodiscover_interfaces to 0 above
+        #    2. List each interface you want published in an interface block
+        # Inside the interface block you can define what tests you want run a few different
+        # ways. See examples below:
+        #
+        ##
+        ## This interface will only allow throughput and trace tests. It explicitly defines
+        ## the tests it supports.
+        #<interface>
+        #     if_name eth0
+        #     disable_autodiscover_tests 1
+        #     test throughput
+        #     test trace
+        #</interface>
+        #
+        ## This interface will allow any type of test EXCEPT throughput. It will
+        ## contact pscheduler for the list of installed plug-ins and will everything
+        ## except throughput. You can define disable_test multiple times to disable multiple
+        ## tests
+        ## the tests it supports.
+        #<interface>
+        #    # don't run throughput tests
+        #    if_name eth1
+        #    disable_test throughput
+        #</interface>
+
         <service>
             inherits local_latency_service
             type     owamp
         </service>
         <service>
-            inherits local_bandwidth_service
-            type     bwctl
+            inherits local_latency_service
+            type     twamp
         </service>
         <service>
             inherits local_web_service
@@ -118,7 +167,7 @@ site_project <%= project %>
             https_port 443
             url_path /esmond/perfsonar/archive
             service_version esmond-2.0
-            autodiscover_tests 1
+            autodiscover_tests 0
         </service>
         <service>
             inherits local_web_service
@@ -131,4 +180,3 @@ site_project <%= project %>
         </service>
     </host>
 </site>
-

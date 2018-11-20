@@ -1,17 +1,30 @@
 class perfsonar::ls_registration_daemon::config(
-  $snotify      = true,
-  $loglvl       = 'INFO',
-  $logger       = 'Log::Dispatch::FileRotate',
-  $logfile      = '/var/log/perfsonar/lsregistrationdaemon.log',
-  $admins       = {},
-  $options      = {},
-  $roles        = [],
-  $projects     = [],
-) inherits perfsonar::params {
+  Boolean $snotify = true,
+  Enum['INFO', 'DEBUG', 'WARNING', 'ERROR'] $loglvl = 'INFO',
+  String $logger = 'Log::Dispatch::FileRotate',
+  String $logfile = '/var/log/perfsonar/lsregistrationdaemon.log',
+  Optional[String] $site_name = undef,
+  Optional[String] $site_domain = undef,
+  Optional[String] $city = undef,
+  Optional[String] $region = undef,
+  Optional[String] $country = undef,
+  Optional[String] $zip_code = undef,
+  Optional[Numeric] $latitude = undef,
+  Optional[Numeric] $longitude = undef,
+  Array $projects = [],
+  Array $roles = [],
+  Optional[String] $ls_instance = undef,
+  Integer[0, default] $check_interval = 3600,
+  Boolean $allow_internal_addresses = false,
+  Array[Hash] $admins = [],
+  Hash[String, Variant[String, Numeric]] $additional_options = {},
+) {
+
   $tn = $snotify ? {
     false   => undef,
     default => Service['perfsonar-lsregistrationdaemon'],
   }
+
   file { '/etc/perfsonar/lsregistrationdaemon-logger.conf':
     ensure  => 'present',
     owner   => 'perfsonar',
@@ -22,11 +35,6 @@ class perfsonar::ls_registration_daemon::config(
     notify  => $tn,
   }
 
-  $default_options = {
-    check_interval           => 3600,
-    allow_internal_addresses => 0,
-  }
-  $lsrd_options = merge($default_options, $options)
   file { '/etc/perfsonar/lsregistrationdaemon.conf':
     ensure  => 'present',
     owner   => 'perfsonar',
@@ -36,4 +44,5 @@ class perfsonar::ls_registration_daemon::config(
     require => Package['perfsonar-lsregistrationdaemon'],
     notify  => $tn,
   }
+
 }
