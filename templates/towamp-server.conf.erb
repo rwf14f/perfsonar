@@ -1,28 +1,9 @@
+# Managed by Puppet
 #
-#      $Id: owampd.conf 1034 2008-12-18 14:48:09Z aaron $
-#
-#########################################################################
-#                 #
-#        Copyright (C)  2002        #
-#           Internet2       #
-#        All Rights Reserved        #
-#                 #
-#########################################################################
-#
-# File:   owampd.conf
-#
-# Author:   Jeff W. Boote
-#     Internet2
-#
-# Date:   Tue Nov 05 13:34:07 MST 2002
-#
-# Description:
-#     Example owampd.conf config file.
-
 # run as group/user - only used if effective uid is root.
 # (defaults to nil)
-user    owamp
-group   owamp
+user <%= @user %>
+group <%= @group %>
 
 # not really used, but what the heck.
 # (defaults to !verbose)
@@ -32,35 +13,34 @@ verbose
 
 # where should syslog messages go?
 # (defaults to daemon)
-facility  <%= @log_facility %>
+facility <%= @log_facility %>
 
 # include src file:line in log messages
 # keep this on, and help us with more specific bug reports!
 # (defaults to !loglocation)
 loglocation
 
-# location for owamp-server.pid and owamp-server.info files
+# location for [to]wamp-server.pid and [to]wamp-server.info files
 # (defaults to $cwd)
-vardir    /var/run
+vardir /var/run
 
 # location for "recv" session files.
 # The "catalog" subdirectory is completely cleaned and recreated each time
-# owampd is restarted. DONT PUT ANYTHING IN THERE!
+# [to]wampd is restarted. DONT PUT ANYTHING IN THERE!
 # (defaults to $cwd)
-datadir   /var/lib/owamp
+datadir <%= @datadir %>
 
 # authmode - uncomment to make only Open.
 # (defaults to OAE)
 #authmode O
 
-# src address/port defaults to wildcard addr and standard(861) port.
-# To start owampd as a non-root user will require running on a non-standard
+# src address/port defaults to wildcard addr and standard(861 (owampd) or 862 (twampd)) port.
+# To start [to]wampd as a non-root user will require running on a non-standard
 # port.
-#srcnode localhost:861         # the default
 #srcnode localhost:8765        # run on a non-standard port
 
 # This is used to limit testing to a specific port range. The valid values are:
-# 0 (owampd will let the system to pick the port number (ephemeral)
+# 0 ([to]wampd will let the system to pick the port number (ephemeral)
 # low-high  (A range. high must be larger than low.)
 testports <%= @test_port[0] %>-<%= @test_port[1] %>
 
@@ -79,7 +59,9 @@ testports <%= @test_port[0] %>-<%= @test_port[1] %>
 # be quite interesting. However, it is useful to have this factor so disk
 # usage is not as vulnerable to replay dos attacks of the test protocol.)
 # (defaults to 1.0 - or no soft limit.)
-diskfudge 3.0
+<% if @diskfudge then -%>
+diskfudge <%= @diskfudge %>
+<% end -%>
 
 # dieby - amount of time to wait for child processes to gracefully terminate
 # before killing them with a SIGKILL. (default is 30 seconds)
@@ -91,6 +73,11 @@ diskfudge 3.0
 # message. (owdp draft recommends 30 minutes in section 4)
 # (defaults to 1800)
 #controltimeout 1800
+
+# testtimeout - amount of time (seconds) to wait for a test packet
+# (defaults to 900)
+# twamp only, not available in owamp
+#testtimeout 900
 
 # pbkdf2_count - number of iterations in the pbkdf2() algorithm
 # pbkdf2_count 2048
