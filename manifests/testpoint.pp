@@ -6,6 +6,7 @@ class perfsonar::testpoint {
   # components that are not configured but use puppet to ensure the service is running
   include 'perfsonar::pscheduler'
   include 'perfsonar::owamp'
+  include 'perfsonar::twamp'
   include 'perfsonar::apache'
   include 'perfsonar::postgresql'
 }
