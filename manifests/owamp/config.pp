@@ -1,13 +1,21 @@
 class perfsonar::owamp::config(
-  $test_port    = $::perfsonar::config::owamp_test_port,
-  $log_facility = 'local5',
-  $log_verbose  = true,
-  $limits       = [
-    'root with disk=0, bandwidth=0, delete_on_fetch=on, allow_open_mode=on',
-    'regular with parent=root, disk=10G, bandwidth=20M, delete_on_fetch=on, allow_open_mode=on',
-    'jail with parent=root, bandwidth=1, disk=1, allow_open_mode=off',
+  Tuple[Integer[1024,65535], Integer[1024,65535]] $test_port = [8760, 9960],
+  String $log_facility = 'local5',
+  Boolean $log_verbose = true,
+  Array[Perfsonar::Limits] $limits = [{
+      name            => 'root',
+      disk            => 0,
+      bandwidth       => 0,
+      delete_on_fetch => 'on',
+    }, {
+      name      => 'regular',
+      parent    => 'root',
+      disk      => '10G',
+      bandwidth => '20M',
+    },
   ],
-) inherits perfsonar::config {
+  String $default = 'regular',
+) {
 
   file { '/etc/owamp-server/owamp-server.conf':
     ensure  => 'present',

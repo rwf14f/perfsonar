@@ -1,7 +1,9 @@
 class perfsonar::owamp::install(
-  $ensure = 'present',
-) inherits perfsonar::params {
+  Enum['installed', 'present', 'latest'] $ensure = 'present',
+) {
+
   package { 'owamp-server':
     ensure => $ensure,
   }
+
 }

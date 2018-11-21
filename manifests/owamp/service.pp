@@ -1,7 +1,8 @@
 class perfsonar::owamp::service(
-  $ensure = 'stopped',
-  $enable = false,
-) inherits perfsonar::params {
+  Enum['running', 'stopped'] $ensure = 'stopped',
+  Boolean $enable = false,
+) {
+
   service { 'owamp-server':
     ensure     => $ensure,
     enable     => $enable,
@@ -9,4 +10,5 @@ class perfsonar::owamp::service(
     hasrestart => true,
     require    => Package['owamp-server'],
   }
+
 }

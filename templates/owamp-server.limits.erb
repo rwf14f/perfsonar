@@ -155,8 +155,8 @@
 #    bandwidth=20M
 
 <% @limits.each do |limit| -%>
-limit <%= limit %>
+limit <%= limit['name'] %> with <%= limit.select{|k, v| k != 'name' }.map { |k, v| "#{k}=#{v}" }.join(',') %>
 <% end -%>
 
 # Default everything to regular user access
-assign default regular
+assign default <%= @default %>
