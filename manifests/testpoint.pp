@@ -5,7 +5,6 @@ class perfsonar::testpoint {
   include 'perfsonar::ls_registration_daemon'
   # components that are not configured but use puppet to ensure the service is running
   include 'perfsonar::pscheduler'
-  include 'perfsonar::bwctl'
   include 'perfsonar::owamp'
   include 'perfsonar::apache'
   include 'perfsonar::postgresql'
