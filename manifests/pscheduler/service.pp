@@ -1,7 +1,8 @@
 class perfsonar::pscheduler::service(
-  $ensure = 'running',
-  $enable = true,
-) inherits perfsonar::params {
+  Enum['running', 'stopped'] $ensure = 'running',
+  Boolean $enable = true,
+) {
+
   service { [ 'pscheduler-archiver', 'pscheduler-runner', 'pscheduler-scheduler', 'pscheduler-ticker', ]:
     ensure     => $ensure,
     enable     => $enable,
@@ -9,4 +10,5 @@ class perfsonar::pscheduler::service(
     hasrestart => true,
     require    => Package['pscheduler-server'],
   }
+
 }

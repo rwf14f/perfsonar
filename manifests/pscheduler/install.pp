@@ -1,7 +1,9 @@
 class perfsonar::pscheduler::install(
-  $ensure = 'present',
-) inherits perfsonar::params {
+  Enum['installed', 'present', 'latest'] $ensure = 'present',
+) {
+
   package { 'pscheduler-server':
     ensure => $ensure,
   }
+
 }
