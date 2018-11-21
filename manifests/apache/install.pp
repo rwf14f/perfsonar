@@ -1,7 +1,9 @@
 class perfsonar::apache::install(
-  $ensure = 'present',
-) inherits perfsonar::params {
+  Perfsonar::Installed $ensure = 'present',
+) {
+
   package { 'httpd':
     ensure => $ensure,
   }
+
 }

@@ -1,6 +1,6 @@
 class perfsonar::apache::service(
-  $ensure = 'running',
-  $enable = true,
+  Stdlib::Ensure::Service $ensure = 'running',
+  Boolean $enable = true,
 ) inherits perfsonar::params {
   service { 'httpd':
     ensure     => $ensure,

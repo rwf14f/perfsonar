@@ -1,6 +1,6 @@
 class perfsonar::apache(
-  $localconfig = false,
-) inherits perfsonar::params {
+  Boolean $localconfig = false,
+) {
   if ! $localconfig {
     include 'perfsonar::apache::install'
     include 'perfsonar::apache::service'
