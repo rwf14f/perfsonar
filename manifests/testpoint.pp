@@ -10,9 +10,3 @@ class perfsonar::testpoint {
   include 'perfsonar::apache'
   include 'perfsonar::postgresql'
 }
-
-# perfsonar-lsregistrationdaemon
-# perfsonar-psconfig-pscheduler
-# perfsonar-tools
-# => iperf*, ntp, owamp-*, twamp-*
-# pscheduler-bundle-full
