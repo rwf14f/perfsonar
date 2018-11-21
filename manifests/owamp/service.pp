@@ -1,5 +1,5 @@
 class perfsonar::owamp::service(
-  Enum['running', 'stopped'] $ensure = 'stopped',
+  Stdlib::Ensure::Service $ensure = 'stopped',
   Boolean $enable = false,
 ) {
 

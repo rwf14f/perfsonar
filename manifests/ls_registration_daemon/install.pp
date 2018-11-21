@@ -1,5 +1,5 @@
 class perfsonar::ls_registration_daemon::install(
-  Enum['installed', 'present', 'latest'] $ensure = 'present',
+  Perfsonar::Installed $ensure = 'present',
 ) {
 
   package { 'perfsonar-lsregistrationdaemon':

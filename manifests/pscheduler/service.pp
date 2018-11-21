@@ -1,5 +1,5 @@
 class perfsonar::pscheduler::service(
-  Enum['running', 'stopped'] $ensure = 'running',
+  Stdlib::Ensure::Service $ensure = 'running',
   Boolean $enable = true,
 ) {
 

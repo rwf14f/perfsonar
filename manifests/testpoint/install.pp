@@ -1,5 +1,5 @@
 class perfsonar::testpoint::install(
-  Enum['installed', 'present', 'latest'] $ensure = 'present',
+  Perfsonar::Installed $ensure = 'present',
 ) {
 
   package { 'perfsonar-testpoint':

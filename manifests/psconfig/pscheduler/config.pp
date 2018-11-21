@@ -1,8 +1,8 @@
 class perfsonar::psconfig::pscheduler::config(
   Boolean $snotify = true,
-  Enum['INFO', 'DEBUG', 'WARNING', 'ERROR'] $loglvl = 'INFO',
+  Perfsonar::LogLevel $loglvl = 'INFO',
   String $logger = 'Log::Dispatch::FileRotate',
-  Array[String] $remote_urls = [],
+  Array[Stdlib::Httpurl] $remote_urls = [],
 ) {
 
   $tn = $snotify ? {

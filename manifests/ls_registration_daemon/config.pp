@@ -1,8 +1,8 @@
 class perfsonar::ls_registration_daemon::config(
   Boolean $snotify = true,
-  Enum['INFO', 'DEBUG', 'WARNING', 'ERROR'] $loglvl = 'INFO',
+  Perfsonar::LogLevel $loglvl = 'INFO',
   String $logger = 'Log::Dispatch::FileRotate',
-  String $logfile = '/var/log/perfsonar/lsregistrationdaemon.log',
+  Stdlib::Absolutepath $logfile = '/var/log/perfsonar/lsregistrationdaemon.log',
   Optional[String] $site_name = undef,
   Optional[String] $site_domain = undef,
   Optional[String] $city = undef,
@@ -11,12 +11,15 @@ class perfsonar::ls_registration_daemon::config(
   Optional[String] $zip_code = undef,
   Optional[Numeric] $latitude = undef,
   Optional[Numeric] $longitude = undef,
-  Array $projects = [],
-  Array $roles = [],
-  Optional[String] $ls_instance = undef,
+  Array[String] $projects = [],
+  Array[String] $roles = [],
+  Optional[Stdlib::Httpurl] $ls_instance = undef,
   Integer[0, default] $check_interval = 3600,
   Boolean $allow_internal_addresses = false,
-  Array[Hash] $admins = [],
+  Array[Struct[{
+    name  => String,
+    email => String,
+  }]] $admins = [],
   Hash[String, Variant[String, Numeric]] $additional_options = {},
 ) {
 

@@ -1,5 +1,5 @@
 class perfsonar::owamp::config(
-  Tuple[Integer[1024,65535], Integer[1024,65535]] $test_port = [8760, 9960],
+  Tuple[Stdlib::Port::Unprivileged, Stdlib::Port::Unprivileged] $test_port = [8760, 9960],
   String $log_facility = 'local5',
   Boolean $log_verbose = true,
   Array[Perfsonar::Limits] $limits = [{
