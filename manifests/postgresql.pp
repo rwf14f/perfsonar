@@ -1,6 +1,6 @@
 class perfsonar::postgresql(
-  $localconfig = false,
-) inherits perfsonar::params {
+  Boolean $localconfig = false,
+) {
   if ! $localconfig {
     include 'perfsonar::postgresql::install'
     include 'perfsonar::postgresql::service'
