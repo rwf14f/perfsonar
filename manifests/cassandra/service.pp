@@ -1,7 +1,8 @@
 class perfsonar::cassandra::service(
-  $ensure = 'running',
-  $enable = true,
-) inherits perfsonar::params {
+  Stdlib::Ensure::Service $ensure = 'running',
+  Boolean $enable = true,
+) {
+
   service { 'cassandra':
     ensure     => $ensure,
     enable     => $enable,
@@ -9,4 +10,5 @@ class perfsonar::cassandra::service(
     hasrestart => true,
     require    => Package['cassandra20'],
   }
+
 }

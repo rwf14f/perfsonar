@@ -1,7 +1,9 @@
 class perfsonar::core::install(
-  $ensure = 'present',
-) inherits perfsonar::params {
+  Perfsonar::Installed $ensure = 'present',
+) {
+
   package { 'perfsonar-core':
     ensure => $ensure,
   }
+
 }
