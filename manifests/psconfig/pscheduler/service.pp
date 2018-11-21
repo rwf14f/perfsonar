@@ -6,6 +6,7 @@ class perfsonar::psconfig::pscheduler::service(
   service { 'psconfig-pscheduler-agent':
     ensure     => $ensure,
     enable     => $enable,
+    hasstatus  => true,
     hasrestart => true,
     require    => Package['perfsonar-psconfig-pscheduler'],
   }
