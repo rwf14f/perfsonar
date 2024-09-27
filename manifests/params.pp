@@ -1,9 +1,9 @@
 class perfsonar::params(
-  $patchdir             = '/usr/local/share/perfsonar_patches',
-  $patchpackage         = 'patch',
-  $patchpackage_ensure  = 'present',
-  $psadmin_group        = 'wheel',
-  $psadmin_user         = ''
+  String $patchdir = '/usr/local/share/perfsonar_patches',
+  String $patchpackage = 'patch',
+  Perfsonar::Installed $patchpackage_ensure = 'present',
+  String $psadmin_group = 'wheel',
+  String $psadmin_user = ''
 ) {
   # os specifics
   case $::osfamily {
